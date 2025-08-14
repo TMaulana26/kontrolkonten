@@ -4,19 +4,23 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
+import { KeyRound, SunMoon, UserPen } from 'lucide-vue-next';
 
 const sidebarNavItems: NavItem[] = [
     {
         title: 'Profile',
         href: '/settings/profile',
+        icon: UserPen,
     },
     {
         title: 'Password',
         href: '/settings/password',
+        icon: KeyRound,
     },
     {
         title: 'Appearance',
         href: '/settings/appearance',
+        icon: SunMoon
     },
 ];
 
@@ -39,7 +43,8 @@ const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.locati
                         :class="['w-full justify-start', { 'bg-muted': currentPath === item.href }]"
                         as-child
                     >
-                        <Link :href="item.href">
+                        <Link :href="item.href" class="flex items-center gap-2">
+                            <component :is="item.icon" class="h-4 w-4" />
                             {{ item.title }}
                         </Link>
                     </Button>

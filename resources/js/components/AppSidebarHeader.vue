@@ -2,6 +2,7 @@
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import type { BreadcrumbItemType } from '@/types';
+import AppearanceSelect from './AppearanceSelect.vue';
 
 withDefaults(
     defineProps<{
@@ -23,5 +24,6 @@ withDefaults(
                 <Breadcrumbs :breadcrumbs="breadcrumbs" />
             </template>
         </div>
+        <AppearanceSelect class="ml-auto" />
     </header>
 </template>
