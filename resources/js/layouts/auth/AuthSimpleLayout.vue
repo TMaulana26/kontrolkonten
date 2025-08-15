@@ -2,6 +2,8 @@
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import AppearanceSelect from '@/components/AppearanceSelect.vue';
 import AppearanceTabs from '@/components/AppearanceTabs.vue';
+import LanguageSelect from '@/components/LanguageSelect.vue';
+import LanguageTabs from '@/components/LanguageTabs.vue';
 import { Link } from '@inertiajs/vue3';
 
 defineProps<{
@@ -12,11 +14,15 @@ defineProps<{
 
 <template>
     <div class="flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10">
-        <div class="hidden md:flex md:absolute md:right-6 md:top-6">
+        <div class="hidden md:flex md:absolute md:right-6 md:top-6 gap-2">
             <AppearanceSelect />
+            <LanguageSelect />
         </div>
         <div class="md:hidden absolute bottom-2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            <AppearanceTabs />
+            <div class="flex flex-col items-center gap-2">
+                <AppearanceTabs />
+                <LanguageTabs />
+            </div>
         </div>
         <div class="w-full max-w-sm">
             <div class="flex flex-col gap-8">

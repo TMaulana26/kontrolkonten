@@ -5,24 +5,27 @@ import { Separator } from '@/components/ui/separator';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
 import { KeyRound, SunMoon, UserPen } from 'lucide-vue-next';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-const sidebarNavItems: NavItem[] = [
+const { t } = useI18n();
+const sidebarNavItems = computed<NavItem[]>(() => [
     {
-        title: 'Profile',
+        title: t('setting.profile.menu'),
         href: '/settings/profile',
         icon: UserPen,
     },
     {
-        title: 'Password',
+        title: t('setting.password.menu'),
         href: '/settings/password',
         icon: KeyRound,
     },
     {
-        title: 'Appearance',
+        title: t('setting.appearance.menu'),
         href: '/settings/appearance',
-        icon: SunMoon
+        icon: SunMoon,
     },
-];
+]);
 
 const page = usePage();
 

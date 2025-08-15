@@ -1,19 +1,22 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-
 import AppearanceTabs from '@/components/AppearanceTabs.vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import { type BreadcrumbItem } from '@/types';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import LanguageTabs from '@/components/LanguageTabs.vue';
+import LanguageSelect from '@/components/LanguageSelect.vue';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-const breadcrumbItems: BreadcrumbItem[] = [
+const { t } = useI18n();
+const breadcrumbItems = computed<BreadcrumbItem[]>(() => [
     {
-        title: 'Appearance settings',
+        title: t('setting.appearance.title'),
         href: '/settings/appearance',
     },
-];
+]);
 </script>
 
 <template>
@@ -25,6 +28,7 @@ const breadcrumbItems: BreadcrumbItem[] = [
                 <HeadingSmall :title="$t('setting.appearance.title')" :description="$t('setting.appearance.desc')" />
                 <AppearanceTabs />
                 <LanguageTabs class="ml-3" />
+                <LanguageSelect class="ml-3" />
             </div>
         </SettingsLayout>
     </AppLayout>

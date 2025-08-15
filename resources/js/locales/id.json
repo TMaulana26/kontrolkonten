@@ -1,13 +1,47 @@
 {
     "nav": {
         "menus": "Menu",
-        "home": "Beranda",
         "about": "Tentang Kami"
     },
     "setting": {
         "title": "Pengaturan",
         "desc": "Kelola profil dan pengaturan akun Anda",
+        "profile": {
+            "menu": "Profil",
+            "title": "Informasi Profil",
+            "desc": "Perbarui nama dan alamat email Anda",
+            "name": "Nama",
+            "email": "Email",
+            "unverified_email": "Alamat email Anda belum diverifikasi.",
+            "resend_email": "Klik di sini untuk mengirim ulang email verifikasi.",
+            "sent_email": "Tautan verifikasi baru telah dikirimkan ke alamat email Anda.",
+            "save_profile": "Simpan Profil",
+            "saved": "Tersimpan"
+        },
+        "delete": {
+            "title": "Hapus Akun",
+            "desc": "Hapus akun Anda dan semua yang terkait",
+            "warning": "Peringatan",
+            "warning_desc": "Silakan berhati-hati, ini tidak dapat dibatalkan.",
+            "delete_account": "Hapus Akun",
+            "question": "Apakah Anda yakin ingin menghapus akun Anda?",
+            "question_desc": "Setelah akun Anda dihapus, semua sumber daya dan data akan juga terhapus secara permanen. Silakan masukkan password Anda untuk memastikan Anda ingin menghapus akun Anda secara permanen.",
+            "password": "Password",
+            "cancel": "Batal",
+            "deleted": "Akun Dihapus"
+        },
+        "password": {
+            "menu": "Password",
+            "title": "Perbarui password",
+            "desc": "Pastikan akun Anda menggunakan password yang panjang dan acak untuk tetap aman",
+            "current_password": "Password Saat Ini",
+            "new_password": "Password Baru",
+            "confirm_password": "Konfirmasi Password",
+            "save_password": "Simpan Password",
+            "saved": "Tersimpan"
+        },
         "appearance": {
+            "menu": "Tampilan",
             "title": "Pengaturan Tampilan",
             "desc": "Perbarui pengaturan tampilan akun Anda"
         }

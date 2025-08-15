@@ -7,6 +7,7 @@ import { createApp, h } from 'vue';
 import { createI18n } from 'vue-i18n';
 import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
+import { initializeLanguage } from './composables/useLanguage'; 
 import en from './locales/en.json';
 import id from './locales/id.json';
 
@@ -21,6 +22,8 @@ const i18n = createI18n({
         id,
     },
 });
+
+initializeLanguage(i18n); 
 
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),

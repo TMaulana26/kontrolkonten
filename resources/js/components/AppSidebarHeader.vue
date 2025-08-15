@@ -3,6 +3,7 @@ import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import type { BreadcrumbItemType } from '@/types';
 import AppearanceSelect from './AppearanceSelect.vue';
+import LanguageSelect from './LanguageSelect.vue';
 
 withDefaults(
     defineProps<{
@@ -25,5 +26,6 @@ withDefaults(
             </template>
         </div>
         <AppearanceSelect class="ml-auto" />
+        <LanguageSelect />
     </header>
 </template>

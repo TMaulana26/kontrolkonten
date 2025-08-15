@@ -1,13 +1,47 @@
 {
     "nav": {
         "menus": "Menus",
-        "home": "Home",
         "about": "About"
     },
     "setting": {
         "title": "Settings",
         "desc": "Manage your profile and account settings",
+        "profile": {
+            "menu": "Profile",
+            "title": "Profile information",
+            "desc": "Update your name and email address",
+            "name": "Name",
+            "email": "Email",
+            "unverified_email": "Your email address is unverified.",
+            "resend_email": "Click here to resend the verification email.",
+            "sent_email": "A new verification link has been sent to your email address.",
+            "save_profile": "Save Profile",
+            "saved": "Saved"
+        },
+        "delete": {
+            "title": "Delete Account",
+            "desc": "Delete your account and all of its resources",
+            "warning": "Warning",
+            "warning_desc": "Please proceed with caution, this cannot be undone.",
+            "delete_account": "Delete Account",
+            "question": "Are you sure you want to delete your account?",
+            "question_desc": "Once your account is deleted, all of its resources and data will also be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.",
+            "password": "Password",
+            "cancel": "Cancel",
+            "deleted": "Deleted Account"
+        },
+        "password": {
+            "menu": "Password",
+            "title": "Update password",
+            "desc": "Ensure your account is using a long, random password to stay secure",
+            "current_password": "Current Password",
+            "new_password": "New Password",
+            "confirm_password": "Confirm Password",
+            "save_password": "Save Password",
+            "saved": "Saved"
+        },
         "appearance": {
+            "menu": "Appearance",
             "title": "Appearance Settings",
             "desc": "Update your account's appearance settings"
         }
