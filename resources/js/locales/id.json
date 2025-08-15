@@ -1,0 +1,15 @@
+{
+    "nav": {
+        "menus": "Menu",
+        "home": "Beranda",
+        "about": "Tentang Kami"
+    },
+    "setting": {
+        "title": "Pengaturan",
+        "desc": "Kelola profil dan pengaturan akun Anda",
+        "appearance": {
+            "title": "Pengaturan Tampilan",
+            "desc": "Perbarui pengaturan tampilan akun Anda"
+        }
+    }
+}

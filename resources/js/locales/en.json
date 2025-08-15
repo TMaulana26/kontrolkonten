@@ -1,0 +1,15 @@
+{
+    "nav": {
+        "menus": "Menus",
+        "home": "Home",
+        "about": "About"
+    },
+    "setting": {
+        "title": "Settings",
+        "desc": "Manage your profile and account settings",
+        "appearance": {
+            "title": "Appearance Settings",
+            "desc": "Update your account's appearance settings"
+        }
+    }
+}
