@@ -1,7 +1,57 @@
 {
+    "auth": {
+        "login": {
+            "title": "Masuk ke akun Anda",
+            "desc": "Masukkan alamat email dan password Anda di bawah ini untuk masuk",
+            "header": "Masuk",
+            "email": "Alamat Email",
+            "password": "Password",
+            "forgot": "Lupa password?",
+            "remember": "Ingat saya",
+            "login": "Masuk",
+            "register": "Belum punya akun?",
+            "register_link": "Daftar"
+        },
+        "register": {
+            "title": "Daftar akun baru",
+            "desc": "Masukkan informasi akun Anda di bawah ini untuk daftar",
+            "header": "Daftar",
+            "name": "Nama",
+            "email": "Alamat Email",
+            "password": "Password",
+            "confirm": "Konfirmasi Password",
+            "register": "Buat Akun",
+            "login": "Sudah punya akun?",
+            "login_link": "Masuk"
+        },
+        "forgot_password": {
+            "title": "Lupa password?",
+            "desc": "Masukkan alamat email Anda untuk menerima tautan reset password",
+            "header": "Lupa Password",
+            "email": "Alamat Email",
+            "send_email": "Kirim Email Reset Password",
+            "return": "Atau, kembali ke",
+            "return_link": "Masuk"
+        },
+        "reset_password": {
+            "title": "Reset password",
+            "desc": "Masukkan password baru Anda di bawah ini",
+            "header": "Reset Password",
+            "email": "Email",
+            "password": "Password",
+            "confirm": "Konfirmasi Password",
+            "reset": "Reset Password"
+        }
+    },
     "nav": {
         "menus": "Menu",
         "about": "Tentang Kami"
+    },
+    "pages": {
+        "dashboard": {
+            "title": "Beranda",
+            "desc": "Selamat datang di dashboard Anda"
+        }
     },
     "setting": {
         "title": "Pengaturan",

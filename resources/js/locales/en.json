@@ -1,7 +1,57 @@
-{
+{   
+    "auth": {
+        "login": {
+            "title": "Log in to your account",
+            "desc": "Enter your email and password below to log in",
+            "header": "Log in",
+            "email": "Email Address",
+            "password": "Password",
+            "forgot": "Forgot your password?",
+            "remember": "Remember me",
+            "login": "Log in",
+            "register": "Don't have an account?",
+            "register_link": "Register"
+        },
+        "register": {
+            "title": "Create an account",
+            "desc": "Enter your details below to create your account",
+            "header": "Register",
+            "name": "Name",
+            "email": "Email Address",
+            "password": "Password",
+            "confirm": "Confirm Password",
+            "register": "Create Account",
+            "login": "Already have an account?",
+            "login_link": "Log in"
+        },
+        "forgot_password": {
+            "title": "Forgot your password?",
+            "desc": "Enter your email to receive a password reset link",
+            "header": "Forgot Password",
+            "email":"Email Address",
+            "send_email": "Email password reset link",
+            "return": "Or, return to",
+            "return_link": "Log in"
+        },
+        "reset_password": {
+            "title": "Reset password",
+            "desc": "Please enter your new password below",
+            "header": "Reset Password",
+            "email": "Email",
+            "password":"Password",
+            "confirm": "Confirm Password",
+            "reset": "Reset Password"
+        }
+    },
     "nav": {
         "menus": "Menus",
         "about": "About"
+    },
+    "pages": {
+        "dashboard": {
+            "title": "Dashboard",
+            "desc": "Welcome to your dashboard"
+        }
     },
     "setting": {
         "title": "Settings",
