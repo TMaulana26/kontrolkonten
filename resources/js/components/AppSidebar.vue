@@ -5,29 +5,38 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-vue-next';
+import { BookOpen, Folder, LayoutGrid, SquareMenu } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-const mainNavItems: NavItem[] = [
+
+const { t } = useI18n();
+const mainNavItems = computed<NavItem[]>(() => [
     {
-        title: 'Dashboard',
-        href: '/dashboard',
+        title: t('nav.dashboard.title'),
+        href: route('dashboard'),
         icon: LayoutGrid,
     },
-];
-
-const footerNavItems: NavItem[] = [
     {
-        title: 'Github Repo',
-        href: 'https://github.com/laravel/vue-starter-kit',
+        title: t('nav.menu.title'),
+        href: route('menu.index'),
+        icon: SquareMenu,
+    }
+]);
+
+const footerNavItems = computed<NavItem[]>(() => [
+    {
+        title: t('nav.repository.title'),
+        href: t('nav.repository.link'),
         icon: Folder,
     },
     {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
+        title: t('nav.documentation.title'),
+        href: t('nav.documentation.link'),
         icon: BookOpen,
-    },
-];
+    }
+]);
 </script>
 
 <template>

@@ -41,17 +41,79 @@
             "password": "Password",
             "confirm": "Konfirmasi Password",
             "reset": "Reset Password"
+        },
+        "email_verify": {
+            "title": "Verifikasi alamat email",
+            "desc": "Silakan verifikasi alamat email Anda dengan mengklik tautan yang telah kami kirimkan ke email Anda.",
+            "header": "Verifikasi Email",
+            "sent_email": "Tautan verifikasi baru telah dikirimkan ke alamat email Anda.",
+            "resend_email": "Klik di sini untuk mengirim ulang email verifikasi.",
+            "logout": "Keluar"
         }
     },
     "nav": {
-        "menus": "Menu",
-        "about": "Tentang Kami"
+        "navigation": "Navigasi",
+        "dashboard": {
+            "title": "Beranda"
+        },
+        "menu": {
+            "title": "Menu"
+        },
+        "repository": {
+            "title": "Repo Github",
+            "link": "https://github.com/laravel/vue-starter-kit"
+        },
+        "documentation": {
+            "title": "Dokumentasi",
+            "link": "https://laravel.com/docs/starter-kits#vue"
+        }
     },
     "pages": {
         "dashboard": {
             "title": "Beranda",
             "desc": "Selamat datang di dashboard Anda"
+        },
+        "menu": {
+            "title": "Menu",
+            "desc": "Kelola menu Anda",
+            "create_btn": "Buat Menu",
+            "table": {
+                "name": "Nama",
+                "route": "Rute",
+                "order": "Posisi",
+                "icon": "Ikon",
+                "actions": "Aksi"
+            },
+            "trash": "Sampah",
+            "dialog": {
+                "name":"Nama",
+                "description":"Deskripsi",
+                "route":"Rute",
+                "icon":"Ikon",
+                "order":"Posisi",
+                "cancel":"Batal",
+                "save":"Simpan"
+            },
+            "confirm": {
+                "toggle_title": "Ubah Status Menu",
+                "toggle_activate": "Apakah Anda yakin ingin mengaktifkan menu ini?",
+                "toggle_deactivate": "Apakah Anda yakin ingin menonaktifkan menu ini?",
+                "toggle_success": "Status menu berhasil diubah.",
+                "delete_title": "Pindahkan ke Sampah",
+                "delete_desc": "Apakah Anda yakin ingin memindahkan menu ini ke sampah?",
+                "delete_success": "Menu berhasil dipindahkan ke sampah.",
+                "restore_title": "Kembalikan Menu",
+                "restore_desc": "Apakah Anda yakin ingin mengembalikan menu ini?",
+                "restore_success": "Menu berhasil dikembalikan.",
+                "force_delete_title": "Hapus Menu Permanen",
+                "force_delete_desc": "Apakah Anda yakin ingin menghapus menu ini secara permanen?",
+                "force_delete_success": "Menu berhasil dihapus permanen."
+            }
         }
+    },
+    "user_menu": {
+        "settings": "Pengaturan",
+        "logout": "Keluar"
     },
     "setting": {
         "title": "Pengaturan",

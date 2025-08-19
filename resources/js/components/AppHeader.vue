@@ -12,8 +12,9 @@ import UserMenuContent from '@/components/UserMenuContent.vue';
 import { getInitials } from '@/composables/useInitials';
 import type { BreadcrumbItem, NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-vue-next';
+import { BookOpen, Folder, LayoutGrid, Menu, Search, SquareMenu } from 'lucide-vue-next';
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 interface Props {
     breadcrumbs?: BreadcrumbItem[];
@@ -32,26 +33,32 @@ const activeItemStyles = computed(
     () => (url: string) => (isCurrentRoute.value(url) ? 'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100' : ''),
 );
 
-const mainNavItems: NavItem[] = [
+const t = useI18n().t;
+const mainNavItems = computed<NavItem[]>(() => [
     {
-        title: 'Dashboard',
-        href: '/dashboard',
+        title: t('nav.dashboard.title'),
+        href: route('dashboard'),
         icon: LayoutGrid,
     },
-];
-
-const rightNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/vue-starter-kit',
+        title: t('nav.menu.title'),
+        href: route('menu.index'),
+        icon: SquareMenu,
+    }
+]);
+
+const rightNavItems = computed<NavItem[]>(() => [
+    {
+        title: t('nav.repository.title'),
+        href: t('nav.repository.link'),
         icon: Folder,
     },
     {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
+        title: t('nav.documentation.title'),
+        href: t('nav.documentation.link'),
         icon: BookOpen,
-    },
-];
+    }
+])
 </script>
 
 <template>
@@ -67,7 +74,7 @@ const rightNavItems: NavItem[] = [
                             </Button>
                         </SheetTrigger>
                         <SheetContent side="left" class="w-[300px] p-6">
-                            <SheetTitle class="sr-only">Navigation Menu</SheetTitle>
+                            <SheetTitle class="sr-only">{{ t('nav.navigation') }}</SheetTitle>
                             <SheetHeader class="flex justify-start text-left">
                                 <AppLogoIcon class="size-6 fill-current text-black dark:text-white" />
                             </SheetHeader>

@@ -41,17 +41,79 @@
             "password":"Password",
             "confirm": "Confirm Password",
             "reset": "Reset Password"
+        },
+        "email_verify": {
+            "title": "Verify your email address",
+            "desc": "Please verify your email address by clicking on the link we just emailed to you.",
+            "header": "VeriEmail verification",
+            "sent_email": "A new verification link has been sent to the email address you provided during registration.",
+            "resend_email": "Resend verification email.",
+            "logout": "Log out"
         }
     },
     "nav": {
-        "menus": "Menus",
-        "about": "About"
+        "navigation": "Navigation",
+        "dashboard": {
+            "title": "Dashboard"
+        },
+        "menu": {
+            "title": "Menu"
+        },
+        "repository": {
+            "title": "Github Repo",
+            "link": "https://github.com/laravel/vue-starter-kit"
+        },
+        "documentation": {
+            "title": "Documentation",
+            "link": "https://laravel.com/docs/starter-kits#vue"
+        }
     },
     "pages": {
         "dashboard": {
             "title": "Dashboard",
             "desc": "Welcome to your dashboard"
+        },
+        "menu": {
+            "title": "Menu",
+            "desc": "Manage your menu",
+            "create_btn": "Create Menu",
+            "table": {
+                "name": "Name",
+                "route": "Route",
+                "order": "Order",
+                "status": "Status",
+                "actions": "Actions"
+            },
+            "trash": "Trash",
+            "dialog": {
+                "name":"Name",
+                "description":"Description",
+                "route":"Route",
+                "icon":"Icon",
+                "order":"Order",
+                "cancel":"Cancel",
+                "save":"Save"
+            },
+            "confirm": {
+                "toggle_title": "Toggle Menu Status",
+                "toggle_activate": "Are you sure you want to activate this menu?",
+                "toggle_deactivate": "Are you sure you want to deactivate this menu?",
+                "toggle_success": "Menu status updated.",
+                "delete_title": "Move to Trash",
+                "delete_desc": "Are you sure you want to move this menu to trash?",
+                "delete_success": "Menu moved to trash.",
+                "restore_title": "Restore Menu",
+                "restore_desc": "Are you sure you want to restore this menu?",
+                "restore_success": "Menu restored.",
+                "force_delete_title": "Permanently Delete Menu",
+                "force_delete_desc": "This action cannot be undone. Are you sure you want to permanently delete this menu?",
+                "force_delete_success": "Menu permanently deleted."
+            }
         }
+    },
+    "user_menu": {
+        "settings": "Settings",
+        "logout": "Log out"
     },
     "setting": {
         "title": "Settings",

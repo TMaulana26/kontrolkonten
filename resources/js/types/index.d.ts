@@ -36,3 +36,22 @@ export interface User {
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;
+
+export interface Menu {
+    id: number;
+    name: {
+        en: string;
+        id: string;
+    };
+    description: {
+        en: string;
+        id: string;
+    };
+    route: string;
+    icon: string;
+    order: number;
+    status: boolean;
+    created_at?: string;
+    updated_at?: string;
+    deleted_at?: string | null;
+}
