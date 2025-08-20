@@ -82,6 +82,7 @@
                 "route": "Route",
                 "order": "Order",
                 "status": "Status",
+                "icon": "Icon",
                 "actions": "Actions"
             },
             "trash": "Trash",

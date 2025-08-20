@@ -72,3 +72,16 @@ export interface Paginator<T> {
     to: number;
     total: number;
 }
+
+export interface Activity {
+    id: number;
+    log_name: string;
+    description: string;
+    subject_type: string;
+    subject_id: number;
+    causer_type: string;
+    causer_id: number;
+    properties: any;
+    created_at: string;
+    causer: User | null;
+}

@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ActivityLogController;
 
 Route::get('/', function () {
     return redirect()->intended(route('login'));
@@ -21,6 +22,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
     Route::resource('menu', MenuController::class)->except(['create', 'show', 'edit']);
     Route::resource('user', UserController::class)->except(['create', 'show', 'edit']);
+    Route::get('activity-log', [ActivityLogController::class, 'index'])->name('activity-log.index');
 });
 
 require __DIR__ . '/settings.php';
