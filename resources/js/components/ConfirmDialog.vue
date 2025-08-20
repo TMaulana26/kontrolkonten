@@ -10,17 +10,27 @@ import {
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { AlertTriangle, Info, ShieldX } from 'lucide-vue-next';
-import { computed } from 'vue';
+import { computed, onUnmounted, watch } from 'vue';
 
 // Define the types for the component's props and emits
 type ConfirmIconType = 'info' | 'warning' | 'error';
 
-const props = defineProps<{
-    open: boolean;
-    title: string;
-    description: string;
-    iconType: ConfirmIconType;
-}>();
+const props = withDefaults(
+    defineProps<{
+        open: boolean;
+        title: string;
+        description: string;
+        iconType: ConfirmIconType;
+        timer?: number | null;
+        showCancel?: boolean;
+        showConfirm?: boolean;
+    }>(),
+    {
+        timer: null,
+        showCancel: true,
+        showConfirm: true,
+    },
+);
 
 const emit = defineEmits<{
     (e: 'update:open', value: boolean): void;
@@ -28,7 +38,31 @@ const emit = defineEmits<{
     (e: 'cancel'): void;
 }>();
 
-// Logic to determine the icon and styling based on the iconType prop
+let timerId: number | null = null;
+
+// Watch for the dialog opening to start the timer
+watch(
+    () => [props.open, props.timer],
+    ([isOpen, timerValue]) => {
+        if (timerId) {
+            clearTimeout(timerId);
+            timerId = null;
+        }
+        if (isOpen && timerValue) {
+            timerId = setTimeout(() => {
+                handleCancel(); // Close the dialog after the timer runs out
+            }, Number(timerValue));
+        }
+    },
+);
+
+// Ensure the timer is cleared if the component is unmounted
+onUnmounted(() => {
+    if (timerId) {
+        clearTimeout(timerId);
+    }
+});
+
 const dialogIcon = computed(() => {
     switch (props.iconType) {
         case 'warning':
@@ -79,8 +113,8 @@ const handleCancel = () => {
                     </AlertDialogHeader>
 
                     <AlertDialogFooter class="mt-4 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-                        <AlertDialogCancel @click="handleCancel" class="w-full sm:w-auto"> Cancel </AlertDialogCancel>
-                        <AlertDialogAction @click="handleConfirm" class="w-full sm:w-auto"> Continue </AlertDialogAction>
+                        <AlertDialogCancel v-if="props.showCancel" @click="handleCancel" class="w-full sm:w-auto"> Cancel </AlertDialogCancel>
+                        <AlertDialogAction v-if="props.showConfirm" @click="handleConfirm" class="w-full sm:w-auto"> Continue </AlertDialogAction>
                     </AlertDialogFooter>
                 </div>
             </div>

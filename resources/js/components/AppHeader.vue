@@ -2,6 +2,7 @@
 import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
+import DynamicIcon from '@/components/DynamicIcon.vue'; // 1. Import DynamicIcon
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -10,10 +11,10 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import UserMenuContent from '@/components/UserMenuContent.vue';
 import { getInitials } from '@/composables/useInitials';
-import type { BreadcrumbItem, NavItem } from '@/types';
+import type { BreadcrumbItem, Menu as MenuType, NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid, Menu, Search, SquareMenu } from 'lucide-vue-next';
-import { computed } from 'vue';
+import { Menu, Search } from 'lucide-vue-next';
+import { computed, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 interface Props {
@@ -25,40 +26,55 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const page = usePage();
+const { t, locale } = useI18n();
+const showInfoDialog = inject<(title: string, description: string) => void>('showInfoDialog');
+
 const auth = computed(() => page.props.auth);
+const navMenus = computed(() => page.props.navMenus as MenuType[]);
 
-const isCurrentRoute = computed(() => (url: string) => page.url === url);
+const mainNavItems = computed<NavItem[]>(() =>
+    navMenus.value.map(menu => {
+        const item: NavItem = {
+            title: menu.name[locale.value as 'en' | 'id'],
+            href: '#',
+            icon: menu.icon,
+        };
 
+        try {
+            item.href = route(menu.route);
+        } catch (error) {
+            console.warn(`Route "${menu.route}" does not exist.`);
+            item.onClick = (event: MouseEvent) => {
+                event.preventDefault();
+                if (showInfoDialog) {
+                    showInfoDialog(
+                        'Under Development',
+                        `The page for "${item.title}" is not available yet.`
+                    );
+                }
+            };
+        }
+        return item;
+    })
+);
+
+const isCurrentRoute = computed(() => (url: string) => page.url.startsWith(url));
 const activeItemStyles = computed(
     () => (url: string) => (isCurrentRoute.value(url) ? 'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100' : ''),
 );
-
-const t = useI18n().t;
-const mainNavItems = computed<NavItem[]>(() => [
-    {
-        title: t('nav.dashboard.title'),
-        href: route('dashboard'),
-        icon: LayoutGrid,
-    },
-    {
-        title: t('nav.menu.title'),
-        href: route('menu.index'),
-        icon: SquareMenu,
-    }
-]);
 
 const rightNavItems = computed<NavItem[]>(() => [
     {
         title: t('nav.repository.title'),
         href: t('nav.repository.link'),
-        icon: Folder,
+        icon: 'Folder',
     },
     {
         title: t('nav.documentation.title'),
         href: t('nav.documentation.link'),
-        icon: BookOpen,
-    }
-])
+        icon: 'BookOpen',
+    },
+]);
 </script>
 
 <template>
@@ -84,10 +100,11 @@ const rightNavItems = computed<NavItem[]>(() => [
                                         v-for="item in mainNavItems"
                                         :key="item.title"
                                         :href="item.href"
+                                        @click="item.onClick"
                                         class="flex items-center gap-x-3 rounded-lg px-3 py-2 text-sm font-medium hover:bg-accent"
                                         :class="activeItemStyles(item.href)"
                                     >
-                                        <component v-if="item.icon" :is="item.icon" class="h-5 w-5" />
+                                        <DynamicIcon v-if="item.icon" :name="item.icon" class="h-5 w-5" />
                                         {{ item.title }}
                                     </Link>
                                 </nav>
@@ -100,7 +117,7 @@ const rightNavItems = computed<NavItem[]>(() => [
                                         rel="noopener noreferrer"
                                         class="flex items-center space-x-2 text-sm font-medium"
                                     >
-                                        <component v-if="item.icon" :is="item.icon" class="h-5 w-5" />
+                                        <DynamicIcon v-if="item.icon" :name="item.icon" class="h-5 w-5" />
                                         <span>{{ item.title }}</span>
                                     </a>
                                 </div>
@@ -122,7 +139,7 @@ const rightNavItems = computed<NavItem[]>(() => [
                                     :class="[navigationMenuTriggerStyle(), activeItemStyles(item.href), 'h-9 cursor-pointer px-3']"
                                     :href="item.href"
                                 >
-                                    <component v-if="item.icon" :is="item.icon" class="mr-2 h-4 w-4" />
+                                    <DynamicIcon v-if="item.icon" :name="item.icon" class="mr-2 h-4 w-4" />
                                     {{ item.title }}
                                 </Link>
                                 <div
@@ -148,7 +165,11 @@ const rightNavItems = computed<NavItem[]>(() => [
                                             <Button variant="ghost" size="icon" as-child class="group h-9 w-9 cursor-pointer">
                                                 <a :href="item.href" target="_blank" rel="noopener noreferrer">
                                                     <span class="sr-only">{{ item.title }}</span>
-                                                    <component :is="item.icon" class="size-5 opacity-80 group-hover:opacity-100" />
+                                                    <DynamicIcon
+                                                        v-if="item.icon"
+                                                        :name="item.icon"
+                                                        class="size-5 opacity-80 group-hover:opacity-100"
+                                                    />
                                                 </a>
                                             </Button>
                                         </TooltipTrigger>
