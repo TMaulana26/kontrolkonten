@@ -109,6 +109,36 @@
                 "force_delete_desc": "This action cannot be undone. Are you sure you want to permanently delete this menu?",
                 "force_delete_success": "Menu permanently deleted."
             }
+        },
+        "user": {
+            "title": "User Management",
+            "desc": "A list of all the users in the site.",
+            "create_btn":"Create User",
+            "table": {
+                "id": "ID",
+                "name": "Name",
+                "email": "Email",
+                "created_at": "Created At",
+                "updated_at": "Updated At",
+                "actions": {
+                    "title": "Actions",
+                    "open": "Open Menu",
+                    "edit": "Edit",
+                    "delete": "Disable"
+                }
+            },
+            "pagination_info": "Showing {from} to {to} of {total} result | Showing {from} to {to} of {total} results",
+            "dialog": {
+                "name":"Name",
+                "email":"Email",
+                "cancel":"Cancel",
+                "save":"Save"
+            },
+            "delete": {
+                "title": "Disable User",
+                "desc": "Are you sure you want to disable this user?",
+                "success": "User has been disabled."
+            }
         }
     },
     "user_menu": {

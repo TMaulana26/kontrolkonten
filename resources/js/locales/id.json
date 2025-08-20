@@ -109,6 +109,36 @@
                 "force_delete_desc": "Apakah Anda yakin ingin menghapus menu ini secara permanen?",
                 "force_delete_success": "Menu berhasil dihapus permanen."
             }
+        },
+        "user": {
+            "title": "Manajemen Pengguna",
+            "desc": "Kelola pengguna Anda di sini",
+            "create_btn":"Buat Pengguna",
+            "table": {
+                "id": "ID",
+                "name": "Nama",
+                "email": "Email",
+                "created_at": "Di buat pada",
+                "updated_at": "Di perbarui pada",
+                "actions": {
+                    "title": "Aksi",
+                    "open": "Buka Menu",
+                    "edit": "Perbarui",
+                    "delete": "Nonaktifkan"
+                }
+            },
+            "pagination_info": "Menampilkan {from} sampai {to} dari {total} hasil | Menampilkan {from} sampai {to} dari {total} hasil",
+            "dialog": {
+                "name":"Nama",
+                "email":"Email",
+                "cancel":"Batal",
+                "save":"Simpan"
+            },
+            "delete": {
+                "title": "Nonaktifkan Pengguna",
+                "desc": "Apakah Anda yakin ingin menonaktifkan pengguna ini?",
+                "success": "Pengguna berhasil dinonaktifkan."
+            }
         }
     },
     "user_menu": {

@@ -56,3 +56,19 @@ export interface Menu {
     updated_at?: string;
     deleted_at?: string | null;
 }
+
+export interface Paginator<T> {
+    data: T[];
+    links: {
+        url: string | null;
+        label: string;
+        active: boolean;
+    }[];
+    current_page: number;
+    from: number;
+    last_page: number;
+    path: string;
+    per_page: number;
+    to: number;
+    total: number;
+}

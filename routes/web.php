@@ -3,6 +3,7 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return redirect()->intended(route('login'));
@@ -19,6 +20,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('{id}/force-delete', [MenuController::class, 'forceDelete'])->name('menu.forceDelete');
     });
     Route::resource('menu', MenuController::class)->except(['create', 'show', 'edit']);
+    Route::resource('user', UserController::class)->except(['create', 'show', 'edit']);
 });
 
 require __DIR__ . '/settings.php';
