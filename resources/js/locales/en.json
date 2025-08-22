@@ -128,8 +128,11 @@
                     "delete": "Disable"
                 }
             },
-            "pagination_info": "Showing {from} to {to} of {total} result | Showing {from} to {to} of {total} results",
             "dialog": {
+                "create_title":"Create User",
+                "create_desc":"Please fill out the form below to create a new user.",
+                "edit_title":"Edit User",
+                "edit_desc":"Please fill out the form below to edit the user.",
                 "name":"Name",
                 "email":"Email",
                 "cancel":"Cancel",
@@ -140,6 +143,20 @@
                 "desc": "Are you sure you want to disable this user?",
                 "success": "User has been disabled."
             }
+        },
+        "activity_log": {
+            "title": "Activity Log",
+            "desc": "An audit trail of all activities in the application.",
+            "table": {
+                "event": "Event",
+                "user": "User",
+                "created_at": "Date & Time",
+                "details": "Log Details",
+                "details_trigger": "Details",
+                "new_value": "New Value",
+                "old_value": "Old Value"
+            },
+            "date_range": "Pick a date range"
         }
     },
     "user_menu": {
@@ -187,6 +204,19 @@
             "menu": "Appearance",
             "title": "Appearance Settings",
             "desc": "Update your account's appearance settings"
+        }
+    },
+    "components": {
+        "theme": {
+            "system": "System",
+            "light": "Light",
+            "dark": "Dark"
+        },
+        "datatable": {
+            "search": "Search...",
+            "empty": "No data available in table",
+            "show": "Showing {from} to {to} of {total} results",
+            "per_page": "Rows per page"
         }
     }
 }

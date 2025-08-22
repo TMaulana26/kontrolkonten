@@ -3,17 +3,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/u
 import { useAppearance } from '@/composables/useAppearance';
 import { Monitor, Moon, Sun } from 'lucide-vue-next';
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const { appearance, updateAppearance } = useAppearance();
 
-const options = [
-    { value: 'light', Icon: Sun, label: 'Light' },
-    { value: 'dark', Icon: Moon, label: 'Dark' },
-    { value: 'system', Icon: Monitor, label: 'System' },
-] as const;
+const options = computed(() => [
+    { value: 'light', Icon: Sun, label: t('components.theme.light') },
+    { value: 'dark', Icon: Moon, label: t('components.theme.dark') },
+    { value: 'system', Icon: Monitor, label: t('components.theme.system') },
+] as const);
 
 const activeOption = computed(() => {
-    return options.find((option) => option.value === appearance.value) || options.find((option) => option.value === 'system');
+    return options.value.filter((option: { value: string; }) => option.value === appearance.value)[0] || options.value.find((option: { value: string; }) => option.value === t('components.theme.system'));
 });
 
 const selectedAppearance = computed({

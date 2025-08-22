@@ -11,16 +11,34 @@ class MenuController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * Now only shows non-deleted items automatically.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $menus = Menu::orderBy('order')->get();
-        $trashedMenus = Menu::onlyTrashed()->orderBy('order')->get();
+        $sortField = $request->input('sort', 'order');
+        $sortDirection = $request->input('direction', 'asc');
+        $allowedSorts = ['id', 'name', 'route', 'order', 'status', 'created_at'];
+
+        if (!in_array($sortField, $allowedSorts)) {
+            $sortField = 'order';
+        }
+
+        $menus = Menu::query()
+            ->when($request->input('search'), function ($query, $search) {
+                // Search across translatable fields
+                $query->where('name->en', 'like', "%{$search}%")
+                    ->orWhere('name->id', 'like', "%{$search}%")
+                    ->orWhere('route', 'like', "%{$search}%");
+            })
+            ->orderBy($sortField, $sortDirection)
+            ->paginate($request->input('per_page', 10))
+            ->withQueryString();
+
+        $trashedMenus = Menu::onlyTrashed()->orderBy('deleted_at', 'desc')->get();
 
         return Inertia::render('Menu', [
             'menus' => $menus,
             'trashedMenus' => $trashedMenus,
+            'filters' => $request->only(['search', 'sort', 'direction', 'per_page']),
         ]);
     }
 

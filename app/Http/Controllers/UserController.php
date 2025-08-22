@@ -21,13 +21,14 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $request->validate([
+            'sort' => 'in:id,name,email,created_at',
+            'direction' => 'in:asc,desc',
+            'per_page' => 'integer|in:10,20,30,40,50',
+        ]);
+
         $sortField = $request->input('sort', 'created_at');
         $sortDirection = $request->input('direction', 'desc');
-        $allowedSorts = ['id', 'name', 'email', 'created_at'];
-
-        if (!in_array($sortField, $allowedSorts)) {
-            $sortField = 'created_at';
-        }
 
         $users = User::query()
             ->when($request->input('search'), function ($query, $search) {
@@ -35,7 +36,7 @@ class UserController extends Controller
                     ->orWhere('email', 'like', "%{$search}%");
             })
             ->orderBy($sortField, $sortDirection)
-            ->paginate(10)
+            ->paginate($request->input('per_page', 10))
             ->withQueryString();
 
         return Inertia::render('User', [

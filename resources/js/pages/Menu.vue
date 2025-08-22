@@ -1,28 +1,44 @@
 <script setup lang="ts">
-// ... (Your entire <script setup> section remains unchanged)
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
+import DataTable from '@/components/DataTable.vue';
+import DynamicIcon from '@/components/DynamicIcon.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem, type Menu } from '@/types';
+import { type BreadcrumbItem, type Column, type Menu, type Paginator } from '@/types';
 import { Head, router, useForm } from '@inertiajs/vue3';
-import { CheckCircle, Pencil, PlusCircle, Power, Trash, Trash2, Undo, XCircle } from 'lucide-vue-next';
+import { CheckCircle, MoreHorizontal, Pencil, PlusCircle, Power, Trash, Trash2, Undo, XCircle } from 'lucide-vue-next';
 import { computed, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { toast } from 'vue-sonner';
-import DynamicIcon from '@/components/DynamicIcon.vue'; 
 
 const props = defineProps<{
-    menus: Menu[];
+    menus: Paginator<Menu>;
     trashedMenus: Menu[];
+    filters: {
+        search: string;
+        sort: string;
+        direction: string;
+        per_page: string;
+    };
 }>();
 
 const { t, locale, availableLocales } = useI18n();
+
+const columns = computed<Column<Menu>[]>(() => [
+    { key: 'icon', label: t('pages.menu.table.icon') },
+    { key: 'name', label: t('pages.menu.table.name'), sortable: true },
+    { key: 'route', label: t('pages.menu.table.route'), sortable: true },
+    { key: 'order', label: t('pages.menu.table.order'), sortable: true },
+    { key: 'status', label: t('pages.menu.table.status'), sortable: true },
+    { key: 'actions', label: t('pages.menu.table.actions') },
+]);
 
 const isDialogOpen = ref(false);
 const isEditing = ref(false);
@@ -61,14 +77,8 @@ const openCreateDialog = () => {
 const openEditDialog = (menu: Menu) => {
     isEditing.value = true;
     editingMenuId.value = menu.id;
-    form.name = {
-        en: menu.name.en,
-        id: menu.name.id,
-    };
-    form.description = {
-        en: menu.description.en,
-        id: menu.description.id,
-    };
+    form.name = menu.name;
+    form.description = menu.description;
     form.route = menu.route;
     form.icon = menu.icon;
     form.order = menu.order;
@@ -80,22 +90,21 @@ const closeDialog = () => {
 };
 
 const submitForm = () => {
-    const onSuccess = () => {
-        closeDialog();
-        toast.success(`Menu ${isEditing.value ? 'updated' : 'created'} successfully.`);
+    const options = {
+        preserveState: true,
+        onSuccess: () => {
+            closeDialog();
+            toast.success(`Menu ${isEditing.value ? 'updated' : 'created'} successfully.`);
+        },
+        onError: (errors: Record<string, string>) => {
+            const firstError = Object.values(errors)[0];
+            if (firstError) toast.error(firstError);
+        },
     };
-
-    const onError = (errors: Record<string, string>) => {
-        const firstError = Object.values(errors)[0];
-        if (firstError) {
-            toast.error(firstError);
-        }
-    };
-
     if (isEditing.value) {
-        form.put(route('menu.update', { menu: editingMenuId.value }), { onSuccess, onError });
+        form.put(route('menu.update', { menu: editingMenuId.value }), options);
     } else {
-        form.post(route('menu.store'), { onSuccess, onError });
+        form.post(route('menu.store'), options);
     }
 };
 
@@ -108,7 +117,7 @@ const toggleStatus = (menu: Menu) => {
             route('menu.toggleStatus', menu),
             {},
             {
-                preserveScroll: true,
+                preserveState: true,
                 onSuccess: () => toast.success(t('pages.menu.confirm.toggle_success')),
             },
         );
@@ -122,6 +131,7 @@ const deleteMenu = (menuId: number) => {
     confirmState.iconType = 'warning';
     confirmState.onConfirm = () => {
         router.delete(route('menu.destroy', { menu: menuId }), {
+            preserveState: true,
             onSuccess: () => toast.info(t('pages.menu.confirm.delete_success')),
         });
     };
@@ -137,6 +147,7 @@ const restoreMenu = (menuId: number) => {
             route('menu.restore', { id: menuId }),
             {},
             {
+                preserveState: true,
                 onSuccess: () => toast.success(t('pages.menu.confirm.restore_success')),
             },
         );
@@ -150,6 +161,7 @@ const forceDeleteMenu = (menuId: number) => {
     confirmState.iconType = 'error';
     confirmState.onConfirm = () => {
         router.delete(route('menu.forceDelete', { id: menuId }), {
+            preserveState: true,
             onSuccess: () => toast.error(t('pages.menu.confirm.force_delete_success')),
         });
     };
@@ -173,96 +185,55 @@ const forceDeleteMenu = (menuId: number) => {
                 </Button>
             </div>
 
-            <div class="rounded-xl border">
-                <Table>
-                    <TableHeader>
-                        <TableRow class="hidden md:table-row">
-                            <TableHead class="w-12">{{ $t('pages.menu.table.icon') }}</TableHead>
-                            <TableHead>{{ $t('pages.menu.table.name') }}</TableHead>
-                            <TableHead>{{ $t('pages.menu.table.route') }}</TableHead>
-                            <TableHead class="text-center">{{ $t('pages.menu.table.order') }}</TableHead>
-                            <TableHead class="text-center">{{ $t('pages.menu.table.status') }}</TableHead>
-                            <TableHead class="text-right">{{ $t('pages.menu.table.actions') }}</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        <TableRow v-for="menu in props.menus" :key="menu.id" class="block border-b last:border-none md:table-row">
-                            <TableCell data-label="Icon" class="block text-right md:table-cell md:text-left before:content-[attr(data-label)] before:float-left before:font-semibold md:before:content-['']">
-                                <DynamicIcon :name="menu.icon" class="h-5 w-5" />
-                            </TableCell>
-                            <TableCell class="flex items-center justify-between font-medium md:table-cell md:font-normal">
-                                <span class="font-semibold text-muted-foreground md:hidden">{{ $t('pages.menu.table.name') }}</span>
-                                <div>
-                                    <div class="font-medium">{{ menu.name[locale as 'en' | 'id'] }}</div>
-                                    <div class="text-sm text-muted-foreground">{{ menu.description[locale as 'en' | 'id'] }}</div>
-                                </div>
-                            </TableCell>
-                            <TableCell class="flex items-center justify-between md:table-cell">
-                                <span class="font-semibold text-muted-foreground md:hidden">{{ $t('pages.menu.table.route') }}</span>
-                                <span>{{ menu.route }}</span>
-                            </TableCell>
-                            <TableCell class="flex items-center justify-between md:table-cell md:text-center">
-                                <span class="font-semibold text-muted-foreground md:hidden">{{ $t('pages.menu.table.order') }}</span>
-                                <span>{{ menu.order }}</span>
-                            </TableCell>
-                            <TableCell class="flex items-center justify-between md:table-cell md:text-center">
-                                <span class="font-semibold text-muted-foreground md:hidden">{{ $t('pages.menu.table.status') }}</span>
-                                <Badge :variant="menu.status ? 'success' : 'destructive'">
-                                    <CheckCircle v-if="menu.status" class="mr-1 h-4 w-4" />
-                                    <XCircle v-else class="mr-1 h-4 w-4" />
-                                    {{ menu.status ? 'Active' : 'Inactive' }}
-                                </Badge>
-                            </TableCell>
-                            <TableCell class="flex items-center justify-between md:table-cell md:text-right">
-                                <span class="font-semibold text-muted-foreground md:hidden">{{ $t('pages.menu.table.actions') }}</span>
-                                <div>
-                                    <Button variant="ghost" size="icon" @click="toggleStatus(menu)">
-                                        <Power class="h-4 w-4" />
-                                    </Button>
-                                    <Button variant="ghost" size="icon" @click="openEditDialog(menu)">
-                                        <Pencil class="h-4 w-4" />
-                                    </Button>
-                                    <Button variant="ghost" size="icon" @click="deleteMenu(menu.id)">
-                                        <Trash2 class="h-4 w-4" />
-                                    </Button>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </div>
+            <DataTable :data="menus" :columns="columns" :filters="filters">
+                <template #cell-icon="{ item }">
+                    <DynamicIcon :name="item.icon" class="h-5 w-5" />
+                </template>
+                <template #cell-name="{ item }">
+                    <div class="font-medium">{{ item.name[locale as 'en' | 'id'] }}</div>
+                    <div class="text-sm text-muted-foreground">{{ item.description[locale as 'en' | 'id'] }}</div>
+                </template>
+                <template #cell-status="{ item }">
+                    <Badge :variant="item.status ? 'success' : 'destructive'">
+                        <CheckCircle v-if="item.status" class="mr-1 h-4 w-4" />
+                        <XCircle v-else class="mr-1 h-4 w-4" />
+                        {{ item.status ? 'Active' : 'Inactive' }}
+                    </Badge>
+                </template>
+                <template #cell-actions="{ item }">
+                    <div class="text-right">
+                        <DropdownMenu>
+                            <DropdownMenuTrigger as-child>
+                                <Button variant="ghost" class="h-8 w-8 p-0"><MoreHorizontal class="h-4 w-4" /></Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuItem @click="toggleStatus(item)"><Power class="mr-2 h-4 w-4" /> Toggle Status</DropdownMenuItem>
+                                <DropdownMenuItem @click="openEditDialog(item)"><Pencil class="mr-2 h-4 w-4" /> Edit</DropdownMenuItem>
+                                <DropdownMenuItem @click="deleteMenu(item.id)"><Trash2 class="mr-2 h-4 w-4" /> Delete</DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                </template>
+            </DataTable>
 
             <div v-if="props.trashedMenus.length > 0" class="mt-6">
                 <h2 class="mb-2 text-xl font-semibold">{{ $t('pages.menu.trash') }}</h2>
                 <div class="rounded-xl border">
                     <Table>
                         <TableHeader>
-                            <TableRow class="hidden md:table-row">
-                                <TableHead>{{ $t('pages.menu.table.name') }}</TableHead>
-                                <TableHead>{{ $t('pages.menu.table.route') }}</TableHead>
-                                <TableHead class="text-right">{{ $t('pages.menu.table.actions') }}</TableHead>
+                            <TableRow>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Route</TableHead>
+                                <TableHead class="text-right">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            <TableRow v-for="menu in props.trashedMenus" :key="menu.id" class="block border-b last:border-none md:table-row">
-                                <TableCell class="flex items-center justify-between font-medium md:table-cell md:font-normal">
-                                    <span class="font-semibold text-muted-foreground md:hidden">{{ $t('pages.menu.table.name') }}</span>
-                                    <span>{{ menu.name[locale as 'en' | 'id'] }}</span>
-                                </TableCell>
-                                <TableCell class="flex items-center justify-between md:table-cell">
-                                    <span class="font-semibold text-muted-foreground md:hidden">{{ $t('pages.menu.table.route') }}</span>
-                                    <span>{{ menu.route }}</span>
-                                </TableCell>
-                                <TableCell class="flex items-center justify-between md:table-cell md:text-right">
-                                    <span class="font-semibold text-muted-foreground md:hidden">{{ $t('pages.menu.table.actions') }}</span>
-                                    <div>
-                                        <Button variant="ghost" size="icon" @click="restoreMenu(menu.id)">
-                                            <Undo class="h-4 w-4" />
-                                        </Button>
-                                        <Button variant="ghost" size="icon" @click="forceDeleteMenu(menu.id)">
-                                            <Trash class="h-4 w-4" />
-                                        </Button>
-                                    </div>
+                            <TableRow v-for="menu in props.trashedMenus" :key="menu.id">
+                                <TableCell>{{ menu.name[locale as 'en' | 'id'] }}</TableCell>
+                                <TableCell>{{ menu.route }}</TableCell>
+                                <TableCell class="text-right">
+                                    <Button variant="ghost" size="icon" @click="restoreMenu(menu.id)"><Undo class="h-4 w-4" /></Button>
+                                    <Button variant="ghost" size="icon" @click="forceDeleteMenu(menu.id)"><Trash class="h-4 w-4" /></Button>
                                 </TableCell>
                             </TableRow>
                         </TableBody>
@@ -275,16 +246,14 @@ const forceDeleteMenu = (menuId: number) => {
             <DialogContent class="sm:max-w-xl">
                 <DialogHeader>
                     <DialogTitle>{{ isEditing ? 'Edit Menu' : 'Create Menu' }}</DialogTitle>
-                    <DialogDescription>
-                        {{ isEditing ? 'Update the details of this menu item.' : 'Add a new menu item to the navigation.' }}
-                    </DialogDescription>
+                    <DialogDescription>{{
+                        isEditing ? 'Update the details of this menu item.' : 'Add a new menu item to the navigation.'
+                    }}</DialogDescription>
                 </DialogHeader>
                 <form @submit.prevent="submitForm" class="space-y-4">
                     <Tabs default-value="en">
                         <TabsList>
-                            <TabsTrigger v-for="lang in availableLocales" :key="lang" :value="lang">
-                                {{ lang.toUpperCase() }}
-                            </TabsTrigger>
+                            <TabsTrigger v-for="lang in availableLocales" :key="lang" :value="lang">{{ lang.toUpperCase() }}</TabsTrigger>
                         </TabsList>
                         <TabsContent v-for="lang in availableLocales" :key="`content-${lang}`" :value="lang" class="space-y-4 pt-2">
                             <div class="grid grid-cols-1 items-start gap-2 md:grid-cols-4 md:items-center md:gap-4">
@@ -300,7 +269,6 @@ const forceDeleteMenu = (menuId: number) => {
                             </div>
                         </TabsContent>
                     </Tabs>
-
                     <div class="space-y-4 border-t pt-4">
                         <div class="grid grid-cols-1 items-start gap-2 md:grid-cols-4 md:items-center md:gap-4">
                             <Label for="route" class="md:text-right">{{ $t('pages.menu.dialog.route') }}</Label>
@@ -315,7 +283,6 @@ const forceDeleteMenu = (menuId: number) => {
                             <Input id="order" type="number" v-model="form.order" class="md:col-span-3" />
                         </div>
                     </div>
-
                     <DialogFooter class="pt-2">
                         <Button type="button" variant="secondary" @click="closeDialog">{{ $t('pages.menu.dialog.cancel') }}</Button>
                         <Button type="submit" :disabled="form.processing">{{ $t('pages.menu.dialog.save') }}</Button>

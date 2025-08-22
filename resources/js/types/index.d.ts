@@ -85,3 +85,23 @@ export interface Activity {
     created_at: string;
     causer: User | null;
 }
+
+export interface Column<T> {
+    key: keyof T | string;
+    label: string;
+    sortable?: boolean;
+}
+
+export interface Role {
+    id: number;
+    name: string;
+    description: string;
+    status: boolean;
+    permissions: Permission[];
+}
+
+export interface Permission {
+    id: number;
+    name: string;
+    feature: string;
+}

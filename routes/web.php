@@ -3,7 +3,9 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ActivityLogController;
 
 Route::get('/', function () {
@@ -23,6 +25,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('menu', MenuController::class)->except(['create', 'show', 'edit']);
     Route::resource('user', UserController::class)->except(['create', 'show', 'edit']);
     Route::get('activity-log', [ActivityLogController::class, 'index'])->name('activity-log.index');
+
+    Route::resource('role', RoleController::class)->except(['create', 'show', 'edit']);
+    Route::group(['prefix' => 'role'], function () {
+        Route::post('{role}/permissions', [RoleController::class, 'assignPermissions'])->name('role.assign-permissions');
+        Route::patch('{role}/toggle-status', [RoleController::class, 'toggleStatus'])->name('role.toggle-status');
+        Route::post('{id}/restore', [RoleController::class, 'restore'])->name('role.restore');
+        Route::delete('{id}/force-delete', [RoleController::class, 'forceDelete'])->name('role.forceDelete');
+    });
+    // Route::resource('permission', PermissionController::class)->except(['create', 'show', 'edit']);
 });
 
 require __DIR__ . '/settings.php';

@@ -127,8 +127,11 @@
                     "delete": "Nonaktifkan"
                 }
             },
-            "pagination_info": "Menampilkan {from} sampai {to} dari {total} hasil | Menampilkan {from} sampai {to} dari {total} hasil",
             "dialog": {
+                "create_title":"Buat Pengguna",
+                "create_desc":"Isi form di bawah ini untuk membuat pengguna baru.",
+                "edit_title":"Perbarui Pengguna",
+                "edit_desc":"Isi form di bawah ini untuk memperbarui pengguna.",
                 "name":"Nama",
                 "email":"Email",
                 "cancel":"Batal",
@@ -139,6 +142,20 @@
                 "desc": "Apakah Anda yakin ingin menonaktifkan pengguna ini?",
                 "success": "Pengguna berhasil dinonaktifkan."
             }
+        },
+        "activity_log": {
+            "title": "Log Aktivitas",
+            "desc": "Riwayat aktivitas aplikasi",
+            "table": {
+                "event": "Perihal",
+                "user": "Pengguna",
+                "created_at": "Di buat pada",
+                "details": "Detail",
+                "details_trigger": "Detail",
+                "new_value": "Nilai Baru",
+                "old_value": "Nilai Lama"
+            },
+            "date_range": "Pilih rentang tanggal"
         }
     },
     "user_menu": {
@@ -186,6 +203,19 @@
             "menu": "Tampilan",
             "title": "Pengaturan Tampilan",
             "desc": "Perbarui pengaturan tampilan akun Anda"
+        }
+    },
+    "components": {
+        "theme": {
+            "system": "Sistem",
+            "light": "Terang",
+            "dark": "Gelap"
+        },
+        "datatable": {
+            "search": "Cari...",
+            "empty": "Tidak ada data yang tersedia di tabel",
+            "show": "Menampilkan {from} sampai {to} dari {total} hasil",
+            "per_page": "Baris per halaman"
         }
     }
 }
